@@ -1,0 +1,188 @@
+//https//coolors.co/ffea77-a3323b-353c44-3e9146-272c51L
+$yellow        =       #ffea77 
+$red           =       #a3323b
+$gray          =       #353c44
+$green         =       #3e9146
+$blue          =       #272c51
+
+//mixins
+shape(size, color)//size  150px, $yellow
+  width 0
+  height 0
+  border-right size solid color
+  border-top size solid color
+  border-left size solid color
+  border-bottom size solid color
+  border-top-left-radius 390px
+  border-top-right-radius 0
+  border-bottom-left-radius 0
+  border-bottom-right-radius 342px
+
+body
+  background-color $gray
+  color #fff
+  font-family 'Roboto', sans-serif
+  text-align center
+  
+  h1
+    margin 0 0 1em
+    font-size 2em
+    text-align center
+    width 100%
+  .alert
+    color #f00 !important 
+    background-color $gray-blue !important 
+    border 1px solid $red !important
+  .hide
+    display none !important
+  .show
+    display block !important
+
+  .circle 
+    position relative 
+    display block
+    background black
+    border-radius 100%
+    height 600px
+    width  600px
+    margin 0
+    background radial-gradient(circle at 100px 100px, hsl(212, 12%, 24%), hsl(0, 0%, 0%))
+    margin 0 auto
+    .shape
+      position relative
+      z-index 1
+      text-indent -100000px
+      .shape__color
+      .shape__color-green      
+        shape(150px, $green)
+        transform rotate(0deg)
+      .shape__color-red      
+        shape(150px, $red)
+        transform rotateX(-180deg)
+        position absolute
+        top 0px
+        left 300px
+      .shape__color-blue      
+        shape(150px, $blue)
+        position absolute
+        top 298px
+        left 300px
+        transform rotateX(-360deg)
+      .shape__color-yellow      
+        shape(150px, $yellow)
+        transform rotateX(180deg)
+    .text //circle center
+      color hsl(0, 0%, 100%)
+      position absolute
+      z-index 2
+      top 32%
+      left 35%
+      right 0
+      bottom 0
+      border-radius 50%
+      height 200px
+      width 200px
+      background #6FFFE9
+      background radial-gradient(circle at 100px 100px, hsl(0, 0%, 41%), hsl(212, 12%, 24%))
+      text-transform lowercase
+      &__name
+        color hsl(0, 0%, 100%)
+        text-transform uppercase
+        font-size 1.4em
+        margin-top 21px
+      &__bloc
+        width 158px
+        margin 0 auto
+        height 75px
+        .text__count
+          .text__box  
+            line-height: 50px
+            width  50px
+            height 50px
+            background-color $gray 
+            border 1px solid hsl(214, 13%, 11%)
+            border-radius 50%
+            margin-bottom 5px
+            margin-top 9px
+        .text__start
+          .text__btn
+            background-color red
+        .text__strict
+          .text__btn
+            background-color $blue 
+        .text__circle
+          margin-left  6px
+          margin-right 6px
+          //color #333
+          float left
+          .text__btn
+            width  20px
+            height 20px
+            border-radius 50% 
+            border 2px solid hsl(210, 14%, 11%)
+            margin auto
+            margin-top 25px
+            margin-bottom 16px
+  //form
+  form
+    clear both
+   .wrap-label 
+     display flex
+     justify-content center 
+     align-items center
+     flex-direction row
+     flex-grow 1
+     .first-text 
+     .text-label 
+       margin-left 1em
+       margin-right 1em
+
+  /* The switch - the box around the slider */
+  .switch 
+    position relative
+    display inline-block
+    width 60px
+    height 34px
+    margin-top 0.5em
+    margin-bottom 0.5em
+
+  /* Hide default HTML checkbox */
+  .switch input displaynone
+
+  /* The slider */
+  .slider 
+    position absolute
+    cursor pointer
+    top 0
+    left 0
+    right 0
+    bottom 0
+    background-color #ccc
+    transition .4s
+  .slider:before 
+    position absolute
+    content ""
+    height 26px
+    width 26px
+    left 4px
+    bottom 4px
+    background-color white
+    transition .4s
+    border-radius 34px
+  input:checked + .slider 
+    background-color hsl(207, 18%, 57%)
+  input:focus + .slider 
+    box-shadow 0 0 1px hsl(107, 18%, 57%)
+  input:checked + .slider:before 
+    transform translateX(26px)
+
+  /* Rounded sliders */
+  .slider.round 
+    border-radius 34px
+  .slider.round:before 
+    border-radius 50%
+  
+
+footer
+  margin-top 2em
+

@@ -1,0 +1,59 @@
+//- mixins.jade
+mixin script(src)
+  script(type='application/javascript', src=src)
+mixin style(href)
+  link(rel='stylesheet', type='text/css', href=href)
+
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    +style('https://fonts.googleapis.com/css?family=Roboto:100')
+    +style('style.css')
+    
+    title FFC - Simon Game
+
+  body
+    div.container
+      h1 Free code Camp - Simon Game
+
+      .game
+        .color
+          .btn-green
+          .btn-red
+          .btn-blue
+          .btn-yellow
+
+        .center.circle
+          section.shape
+            div.shape__color.shape__color-green   1
+            div.shape__color.shape__color-red     2
+            div.shape__color.shape__color-blue    3
+            div.shape__color.shape__color-yellow  4 
+          section.text
+            .text__circle.text__name     
+              | Simon
+            .text__bloc
+              .text__circle.text__count  
+                .text__box 0
+                | Count
+              .text__circle.text__start    
+                .text__btn 
+                | Start
+              .text__circle.text__strict   
+                .text__btn 
+                | Strict
+            form
+              div.wrap-label
+                .text-label.first-text off
+                label.switch
+                  input(type='checkbox' checked='checked' name='case').caseCoche
+                  .slider.round
+                .text-label.first-text on
+
+      footer
+        div.thx Thanks for watching.
+
+    +script('script.js')
+
