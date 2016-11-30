@@ -13,10 +13,15 @@ shape(size, color)//size  150px, $yellow
   border-top size solid color
   border-left size solid color
   border-bottom size solid color
-  border-top-left-radius 390px
+  border-top-left-radius 380px
   border-top-right-radius 0
   border-bottom-left-radius 0
-  border-bottom-right-radius 342px
+  border-bottom-right-radius 352px
+
+.error
+  background-color: red !important
+  color #fff  !important
+  text-transform: uppercase
 
 body
   background-color $gray
@@ -71,12 +76,32 @@ body
       .shape__color-yellow      
         shape(150px, $yellow)
         transform rotateX(180deg)
+      .shape__color-green.active      
+        border-right:  150px solid hsl(136, 50%, 46%);
+        border-top:    150px solid hsl(136, 50%, 46%);
+        border-left:   150px solid hsl(136, 50%, 46%);
+        border-bottom: 150px solid hsl(136, 50%, 46%);
+      .shape__color-red.active      
+        border-right:  150px solid hsl(365, 65%, 47%);
+        border-top:    150px solid hsl(365, 65%, 47%);
+        border-left:   150px solid hsl(365, 65%, 47%);
+        border-bottom: 150px solid hsl(365, 65%, 47%);
+      .shape__color-blue.active      
+        border-right   150px solid hsl(243, 40%, 29%);
+        border-top:    150px solid hsl(243, 40%, 29%);
+        border-left:   150px solid hsl(243, 40%, 29%);
+        border-bottom  150px solid hsl(243, 40%, 29%);
+      .shape__color-yellow.active
+        border-right   150px solid hsl(61, 100%, 68%);
+        border-top     150px solid hsl(61, 100%, 68%);
+        border-left    150px solid hsl(61, 100%, 68%);
+        border-bottom  150px solid hsl(61, 100%, 68%);
     .text //circle center
       color hsl(0, 0%, 100%)
       position absolute
       z-index 2
       top 32%
-      left 35%
+      left 34.5%
       right 0
       bottom 0
       border-radius 50%
@@ -95,6 +120,7 @@ body
         margin 0 auto
         height 75px
         .text__count
+          cursor: text !important
           .text__box  
             line-height: 50px
             width  50px
@@ -107,6 +133,9 @@ body
         .text__start
           .text__btn
             background-color red
+        .text__start
+          .text__btn.active
+            background-color hsl(132, 100%, 50%) 
         .text__strict
           .text__btn
             background-color $blue 
@@ -115,6 +144,7 @@ body
           margin-right 6px
           //color #333
           float left
+          cursor: pointer
           .text__btn
             width  20px
             height 20px

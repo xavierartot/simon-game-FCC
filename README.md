@@ -1,6 +1,7 @@
+### pseudo code
 init: 
-- the checkbox by default is unchecked
-- the sound associate to the color are the same  = dataGame
+/- the checkbox by default is unchecked
+/- the sound associate to the color are the same  = dataGame
 
 if checkbox === true
   - Ai choose a random color and play a sound
