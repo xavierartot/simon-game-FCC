@@ -9,8 +9,10 @@ let Simon = ( () => {
     blue               : document.querySelector('.shape__color-blue'),
     yellow             : document.querySelector('.shape__color-yellow'),
     shape              : document.querySelectorAll('.shape__color'),
+    //arraySimon         : [3,1,2,3,4,1,4,2],
+    arraySimon         : [],
+    arrayOppoment      : [],
     countBox           : document.querySelector('.text__box'),//count
-    arraySimon         : [3,2,3,1,4,1,4]
   },
   dataGame = {
     1 : {color :'green'  , num :  1, sound:  'http://artot.net/sounds/other1.mp3'    },
@@ -21,7 +23,10 @@ let Simon = ( () => {
   errorSound = 'https://s3.amazonaws.com/freecodecamp/simonSound1.mp3', //from https://www.freecodecamp.com/challenges/build-a-simon-game
   color       = '',
   random      = '',
+  d = data.arraySimon,
   randomTemp  = ''
+
+  console.log(d);
 
   // private
   let _playSound = (sound) => {
@@ -29,7 +34,7 @@ let Simon = ( () => {
   }
 
   // the ai start
-  let _turn = (t) => {
+  let turn = (t) => {
     if (data.caseCoche.checked !== false) {
       alert('turn on the game')
       return false
@@ -40,29 +45,28 @@ let Simon = ( () => {
   let error = (time) => {
     return setTimeout(function () {
       _playSound(errorSound )
+      //data.countbox === text box
       data.countBox.textContent = 'err'
       data.countBox.classList.add('error')
+      //send to different ai() ex: _aiError()
       _ai()
     }, time);//1s
   }
 
-  let opponent = () => {
-    data.arraySimon.push( dataGame[randomTemp] )
-    for (let i = 0, l = data.arraySimon.length; i < l; i++) {
-      let cur= data.arraySimon[i], prev = data.arraySimon[i-1];
-      //console.log(cur);
-    }
+  let opponent = (pawn) => {
+    let randomTemp = (pawn !== undefined) ? pawn : randomTemp
+    //d.push( dataGame[randomTemp] )
   }
 
   let addOneStep = () => {
-    let d = data.arraySimon 
 
+    //console.log('add one step');
     randomTemp = Random()
-    d.push( dataGame[randomTemp] )
-
-    data.countBox.textContent = d.length 
 
     setTimeout(function () {
+      d.push( dataGame[randomTemp] )
+
+      data.countBox.textContent = d.length 
 
       //add color with randomTemp 
       for (let prop in data){
@@ -75,65 +79,63 @@ let Simon = ( () => {
       }
       //add sound with randomTemp 
       _playSound(dataGame[randomTemp].sound)
-      console.log(dataGame[randomTemp].sound);
 
-    }, 1000);//1s
-  }
-  
-  let _ai = () => {
-    let d = data.arraySimon, j=0, anim
-    if (d.length === 0) {
-      //add a step
       setTimeout(function () {
-        addOneStep() 
-      }, 1e3);//1s
+        removeActiveClass()
+      }, 1500);//1s
+
+    }, 2500);//1s
+  }
+
+  let _ai = () => {
+    let j=0, anim, d = data.arraySimon
+    console.log(j);
+    console.log('arraySimon : '+d);
+    console.log('arraySimon length: '+d.length);
+    if (d.length === 0) {
+      //add a step if arraySimon it's === 0
+      return addOneStep()
     } else{
       //if the array is not empty loop through every seconds
       //then, add a step
       if (d.length > 0 && j <= d.length) {
-        console.log(d);
         anim = setInterval(function () {
-          if (j >= d.length ) {
+
+          //remove all class active
+          removeActiveClass()
+
+          if (j > d.length ) {
+            console.log('j >= d.length');
             clearInterval(anim)
+            j++
             //add one step
-            setTimeout(function () {
-              //return addOneStep() 
-            }, 1e3);//1s
+            return addOneStep() 
           } else{
-            removeActive()
-            console.log(d[j]);
-            console.log(dataGame[d[j]].color);
-            console.log(dataGame[d[j]].sound);
-            
-            for (let prop in data){
-              if (data.hasOwnProperty(prop)) {
-                let da =data[prop] 
-                if (prop === dataGame[d[j]].color) {
-                  da.classList.add('active')
-                }
-              }
-            }
-            //add sound with randomTemp 
-            _playSound(dataGame[d[j]].sound)
-            console.log(dataGame[d[j]].sound);
-            //for (let i = 0, l = d.length; i < l; i++) {
-              //let current = d[i]
+            //d.push( dataGame[randomTemp] )
+            for (let i = 0, l = d.length; i < l; i++) {
+              let current = d[i] //current object
               //console.log(current);
-              //for (let prop in dataGame){
-                //if (dataGame.hasOwnProperty(prop)) {
-                  //if (dataGame[prop].num === current) {
-                    //console.log(dataGame[prop].color);
-                    //console.log(dataGame[prop].sound);
-                  //}
-                  
-                //}
-              //}
-            //}
-          } 
-          j++
-        }, 1e3);//1s
+              //console.log(current.num);
+              //console.log(current.color);
+              //console.log(data[current.color]);
+              //console.log(data[current.color].classList.add('active'));
+              data[current.color].classList.add('active')
+              //add sound with randomTemp 
+              _playSound(current.sound)
+            }
+            clearInterval(anim)
+            setTimeout(function () {
+              removeActiveClass()
+            }, 700);//1s
+            j++
+            addOneStep() 
+          }
+        }, 1000);//1s
       }
-    } 
+    }
+    console.log(j);
+    console.log('arraySimon : '+d);
+    console.log('arraySimon length: '+d.length);
   }
 
   //random between 1 and 4
@@ -142,26 +144,20 @@ let Simon = ( () => {
     return random 
   }
 
-  let removeActiveClass = () => {
-    let col = document.querySelectorAll('.shape__color')
-    for (let i = 0; i < col.length; i++) {
-      col[i].classList.remove('active')
-    }
+  let emptyDataArraySimon = () => {
+    while (d.length) { d.pop(); }
   }
 
-  // private
-  // dataGame = sound, num, color
-  let _start = () => {
-    data.caseCoche.checked = false
-    //checked
+  let changeCheckbox = () => {
     data.caseCoche.addEventListener('change',function() {
-      //console.log(this.checked);
       if (this.checked) {//if this.checked is true
-        return true
+        //empty arraySimon 
+        emptyDataArraySimon()
       } else{
         //empty arraySimon 
-        //data.arraySimon = []
+        emptyDataArraySimon()
 
+        //start circle
         data.startActive.classList.remove('active')
 
         //remove class error
@@ -170,10 +166,19 @@ let Simon = ( () => {
         //remove class active
         removeActiveClass()
 
-        return true
-      } 
-
+      }
+      return true
     });
+
+  }
+  // private
+  // dataGame = sound, num, color
+  let _start = () => {
+    //checke to false
+    data.caseCoche.checked = false
+    //test the checked
+    changeCheckbox()
+
     data.start.addEventListener('click', function(e) {
       if (data.caseCoche.checked === true) {
         //start the ai
@@ -182,7 +187,8 @@ let Simon = ( () => {
         data.startActive.classList.add('active')
         //remove .error
         data.countBox.classList.remove('error')
-      } //end checked true
+      } 
+      //end checked true
       e.preventDefault();
     }); // end click on start
     return false
@@ -190,33 +196,60 @@ let Simon = ( () => {
 
   let shapeClick = () => {
     for (let i = 0, l = data.shape.length; i < l; i++) {
-      let current = data.shape[i], prev = data.shape[i-1];
-      current.addEventListener('click', function(e) {
-        let $this = this.textContent
-        this.classList.add('active')
-        _playSound(dataGame[$this].sound)
+      data.shape[i].addEventListener('click', function(e) {
+        console.log('click oppoment');
+        // a chaque fois que je clique sur au item, 
+        // je stock l'objet dans un tableaux
+        data.arrayOppoment.push(dataGame[this.textContent.trim()])      
+        //console.log(data.arrayOppoment);
+        //console.log(data.arraySimon);
+        for (let i = 0, l = data.arraySimon.length; i < l; i++) {
+          let currentDataSimon = data.arraySimon[i]
+          console.log(data.arrayOppoment);
+          console.log(data.arraySimon);
+          console.log(data.arrayOppoment[i]);
+          console.log(data.arraySimon[i]);
+          if (data.arraySimon[i].num === data.arrayOppoment[i].num )  {
+            console.log(data.arrayOppoment[i]);
+            console.log(data.arraySimon[i]);
+            this.classList.add('activeClick')
+            _playSound(currentDataSimon.sound)
+            setTimeout(function () {
+              removeActiveClass()
+            }, 500);//1s
+            //opponent(parseInt(currentShape,10))
+          } else{
+            //return _ai() with error()
+            console.log('error');
+            return error()
+            //return _ai()
+          } 
+        }
+
         e.preventDefault();
+        return _ai()
       });
     }
 
-
   }
 
-  let removeActive = () => {
+  let removeActiveClass = () => {
     for (let i = 0, l = data.shape.length; i < l; i++) {
-      let current = data.shape[i], prev = data.shape[i-1];
+      let current = data.shape[i]
       if (current.classList.contains('active') === true) {
         current.classList.remove('active')
-      }
+      } else if(current.classList.contains('activeClick') === true){
+        current.classList.remove('activeClick')
+
+      } 
     }
   }
 
   //main
   let main  = () => {
-
     shapeClick()
     _start()
-    removeActive()
+    removeActiveClass()
     return true
   };
 
