@@ -1,5 +1,5 @@
 //https//coolors.co/ffea77-a3323b-353c44-3e9146-272c51L
-$yellow        =       #ffea77 
+$yellow        =       hsl(51, 100%, 82%) 
 $red           =       #a3323b
 $gray          =       #353c44
 $green         =       #3e9146
@@ -18,11 +18,16 @@ shape(size, color)//size  150px, $yellow
   border-bottom-left-radius 0
   border-bottom-right-radius 352px
 
+.mask-shape
+  opacity: 0 !important
 .error
   background-color: red !important
   color #fff  !important
   text-transform: uppercase
-
+.show
+  display: block !important
+.hide
+  display: none !important
 body
   background-color $gray
   color #fff
@@ -61,21 +66,27 @@ body
       .shape__color-green      
         shape(150px, $green)
         transform rotate(0deg)
+        position: absolute;
+        top: 0
+        left: 0
       .shape__color-red      
         shape(150px, $red)
         transform rotateX(-180deg)
         position absolute
-        top 0px
+        top 0
         left 300px
       .shape__color-blue      
         shape(150px, $blue)
         position absolute
-        top 298px
+        top: 300px
         left 300px
         transform rotateX(-360deg)
       .shape__color-yellow      
         shape(150px, $yellow)
         transform rotateX(180deg)
+        position: absolute;
+        top: 300px;
+        left: 0;
       .shape__color-green.active      
         border-right:  150px solid hsl(136, 70%, 46%);
         border-top:    150px solid hsl(136, 70%, 46%);
