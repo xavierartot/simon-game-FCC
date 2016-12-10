@@ -36,45 +36,56 @@ let Simon = ( () => {
   }
 
   let randAddItem = (rand) => {
-    let random = Math.floor(Math.random() * 4) + 1,
-    temp = (rand !== undefined) ? ao.push( rand) : as.push( random )
-    return random
+    let randNum = (Math.floor(Math.random() * 4) + 1), temp
+    if (rand !== undefined && rand !== '') {
+      ao.push( rand)
+      temp = rand
+    } else {
+      as.push( randNum )
+      temp = randNum
+    }
+    
+    return temp 
   }
 
   let addOneStep = () => {
-
+    let ide = 0, randNumber 
     //showShape()
-    let randNumber = randAddItem()
-    console.log(randNumber);
+    if (ide === 0) {
+      ide++
+      randNumber = randAddItem()
 
-    setTimeout(function () {
-      //add sound with randomTemp 
-      for (let prop in data){
-        if (data.hasOwnProperty(prop)) {
-          let d =data[prop] 
-          if (prop === dataGame[randNumber].color) {
-            //console.log(prop);
-            d.classList.add('active')
-            _playSound(dataGame[randNumber].sound)
-            data.countBox.textContent = as.length 
-            //console.log('i addOneStep ');
+      //console.log('one step ' + as, ao);
+      setTimeout(function () {
+        //add sound with randomTemp 
+        for (let prop in data){
+          if (data.hasOwnProperty(prop)) {
+            let d =data[prop] 
+            //console.log(ide);
+            if (prop === dataGame[randNumber].color && ide === 1) {
+              ide++
+              //console.log(prop);
+              d.classList.add('active')
+              _playSound(dataGame[randNumber].sound)
+              data.countBox.textContent = as.length 
+              console.log('i addOneStep ');
+            }
           }
         }
-      }
-    }, 2000);//1s
+      }, 2000);//1s
 
-    setTimeout(function () {
-      removeActiveClass()
-      //showShape()
-      emptyDataArray(ao)//delete arrayOppoment
-    }, 2600);//1s
-    console.log(as);
-    console.log(randNumber);
-    //return randNumber;
+      setTimeout(function () {
+        removeActiveClass()
+        //showShape()
+        emptyDataArray(ao)//delete arrayOppoment
+        //console.log(ide);
+      }, 2600);//1s
+      //return randNumber;
+    }
   }
 
   let _ai = () => {
-    let anim //, d = data.arraySimon
+    let anim, total=0 //, d = data.arraySimon
     //console.log(as);
     if (as.length === 0) {
       //add a step if arraySimon it's === 0
@@ -94,25 +105,30 @@ let Simon = ( () => {
                 }, 2000);//1s
                 setTimeout(function () {
                   //hideShape()
-                  //console.log('removeActiveClass');
                   removeActiveClass()
                 }, 2500);//1s
               }
             }
           } //end forin
-          if (as.length-1  === i) {
-            //console.log(i);
-            //console.log('start addOneStep');
-            setTimeout(function () {
-              //console.log('ai addOneStep');
-              addOneStep()
-              return this
-            }, 1000);//1s
-          }
         }, i * 1000, i); // we're passing i in the argument of the callBack
-      });
-    }
-  }
+        total = i * 1000
+      });// end foreach
+
+      console.log(as);
+      console.log(total);
+      for (let i = 0, l = as.length; i < l; i++) {
+        console.log(i);
+        if ( (as.length-1) === i) {
+          //alert(as.length-1)
+          //break;
+          return setTimeout(function () {
+            addOneStep()
+          }, total + 2000);//1s
+          break;
+        }
+      }
+    }// end else if(as.length > 0)
+  }// end _ai()
 
   let error = (time) => {
     return setTimeout(function () {
@@ -127,8 +143,8 @@ let Simon = ( () => {
 
   //random between 1 and 4
   //let Random = () => {
-    //random =  Math.floor(Math.random() * 4) + 1  
-    //return random 
+  //random =  Math.floor(Math.random() * 4) + 1  
+  //return random 
   //}
 
   let emptyDataArray = (array) => {
@@ -205,7 +221,9 @@ let Simon = ( () => {
       randAddItem(numClick)//push the click in ao (array oppoment)
       clickCount++ //count the click number
       let sound = dataGame[parseInt(this.textContent.trim(),10)].sound
+      //console.log('click ' + as, ao);
       if (as.length === 1 && clickCount === 1) {
+        //console.log('click ' + as, ao);
         _playSound(sound)
         this.classList.add('activeClick')
         setTimeout(function () {
@@ -215,26 +233,25 @@ let Simon = ( () => {
         }, 800);//1s
         return this
       } else if(as.length > 1){ 
-        //console.log(numClick);
-        //console.log(as);
-        //console.log(ao);
+        //console.log('click ' + as, ao);
         for (let i = 0, l = as.length; i < l; i++) {
           if (as[i]=== ao[i])  {
-            //console.log('succes');
             _playSound(sound)
             this.classList.add('activeClick')
+            setTimeout(function () {
+              removeActiveClass()
+            }, 800);//1s
             //console.log('1 valeur dans ao');
             if(as.length === ao.length){
               setTimeout(function () {
-                //console.log('ai click');
+                //console.log('click same size' + as, ao);
                 removeActiveClass()
                 return _ai()
               }, 800);//1s
+              break;
             }
           } else if(as[i] !== ao[i]){
             //console.log('nope succes');
-            //console.log(as[i]);
-            //console.log(ao[i]);
           } else{
             //console.log('error');
             //return error()
