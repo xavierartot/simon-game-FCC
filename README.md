@@ -1,4 +1,7 @@
 ### pseudo code
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/xavierartot/simon-game-FCC.svg)](https://greenkeeper.io/)
+
 init: 
 /- the checkbox by default is unchecked
 /- the sound associate to the color are the same  = dataGame
